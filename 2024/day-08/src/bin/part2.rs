@@ -18,31 +18,19 @@ fn get_antinodes(antenna_coors: Vec<(i32, i32)>, puzzle_size: (i32, i32)) -> Vec
             let x_diff = x2 - x1;
             let y_diff = y2 - y1;
 
-            let mut k = 0;
-            loop {
-                let x = x1 - k * x_diff;
-                let y = y1 - k * y_diff;
-
-                if (x >= 0) && (x < puzzle_size.0) && (y >= 0) && (y < puzzle_size.1) {
+            (0..)
+                .map(|k| (x1 - k * x_diff, y1 - k * y_diff))
+                .take_while(|&(x, y)| x >= 0 && x < puzzle_size.0 && y >= 0 && y < puzzle_size.1)
+                .for_each(|(x, y)| {
                     antinodes.insert((x, y));
-                    k += 1;
-                } else {
-                    break;
-                }
-            }
+                });
 
-            let mut k = 0;
-            loop {
-                let x = x2 + k * x_diff;
-                let y = y2 + k * y_diff;
-
-                if (x >= 0) && (x < puzzle_size.0) && (y >= 0) && (y < puzzle_size.1) {
+            (0..)
+                .map(|k| (x2 + k * x_diff, y2 + k * y_diff))
+                .take_while(|&(x, y)| x >= 0 && x < puzzle_size.0 && y >= 0 && y < puzzle_size.1)
+                .for_each(|(x, y)| {
                     antinodes.insert((x, y));
-                    k += 1;
-                } else {
-                    break;
-                }
-            }
+                });
         }
     }
 
